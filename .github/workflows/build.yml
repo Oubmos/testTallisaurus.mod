@@ -1,0 +1,29 @@
+name: Build Mod
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant Gradle permission
+        run: chmod +x gradlew
+
+      - name: Build mod
+        run: ./gradlew build
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v3
+        with:
+          name: tallinosaurus-mod-jar
+          path: build/libs/*.jar
